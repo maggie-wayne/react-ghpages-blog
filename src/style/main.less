@@ -1,0 +1,137 @@
+
+
+@fontSize: 16px;
+@lineHeight: 24px;
+@fontWeight: 400;
+
+@fontFamily: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimSun, sans-serif;
+@monospaceFontFamily: "Ubuntu Mono" ,"PT Mono", Consolas, Monaco, Menlo, monospace;
+
+@titleColor: #0d1a26;
+@textColor: #314659;
+@linkColor: #000;
+@bgColor: #fff;
+@metaColor: #888;
+@codeBgColor: #f6f8fa;
+
+@import '~normalize.css';
+@import './githubMarkdown.less';
+
+// TODO: dangerouslySetInnerHTML 渲染的页面 hash router 无法定位到锚点
+.anchor {
+    display: none;
+}
+
+/* Global */
+body {
+    width: 50%;
+    margin: 1em auto;
+    min-width: 700px;
+
+    color: @textColor;
+    background: @bgColor;
+
+    font-size: @fontSize;
+    font-weight: 400;
+    line-height: @lineHeight;
+    font-family: @fontFamily;
+}
+
+.clearfix {
+    overflow: hidden;
+}
+
+.a-style {
+    color: @linkColor;
+    text-decoration-line: none;
+    font-weight: 500;
+    &:link, &:visited {
+        border-bottom: 1px black dotted;
+    }
+
+    &:hover {
+        border: none;
+    }
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: @titleColor;
+}
+
+/* Blog title */
+.blog-title {
+    margin: 0.5em 0;
+    text-align: center;
+    font-size: 2.2em;
+    font-weight: normal;
+
+    a {
+        .a-style;
+        border: none !important;
+    }
+}
+
+/* Category list */
+.category-list-container {
+    a {
+        .a-style;
+    }
+
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+
+    .category-item {
+        float: left;
+        margin: 0 0.5em;
+    }
+}
+
+/* Posts list */
+.posts-list-container {
+    a {
+        .a-style;
+    }
+    .posts-list {
+        margin: 0 0.5em;
+        list-style-type: none;
+        padding: 0px;
+    }
+
+    .posts-item {
+        display: block;
+        position: relative;
+        margin: 0.5em 0;
+    }
+
+    .posts-date {
+        position: absolute;
+        right: 0px;
+    }
+}
+
+/* Posts content */
+.posts-content-container {
+    .posts-title {
+        color: #000;
+        margin: 0.5em 0 1em 0;
+
+        .posts-date {
+            display: block;
+            color: @metaColor;
+            font-size: 0.2em;
+        }
+    }
+}
+
+.footer {
+    margin: auto;
+    font-size: 0.618em;
+    text-align: center;
+    color: @metaColor;
+    a {
+        &:link, &:visited {
+            color: @metaColor;
+        }
+    }
+}

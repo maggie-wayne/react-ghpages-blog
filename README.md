@@ -1,7 +1,9 @@
 react-ghpages-blog
 ===
 
-想法来源于 [vue-ghpages-blog](https://github.com/viko16/vue-ghpages-blog)
+[![Build Status](https://travis-ci.org/zowiegong/react-ghpages-blog.svg?branch=dev)](https://travis-ci.org/zowiegong/react-ghpages-blog)
+
+灵感来源于 [vue-ghpages-blog](https://github.com/viko16/vue-ghpages-blog)
 
 一个基于 GitHub Pages , 使用 GitHub API 的 Blog.
 

@@ -18,7 +18,7 @@ class CategoryListContainer extends Component {
                 }
             </ul>
         )
-        return loading ? <div>Loading ...</div> : list
+        return list
     }
 }
 

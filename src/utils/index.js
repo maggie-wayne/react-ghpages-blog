@@ -1,8 +1,9 @@
 /**
- * get staring hash
+ * 对字符串进行 hash
  * @param {string} str 
  */
 export const hashCode = (str) => {
+    if (!str) return ''
     let [len, hash, i, chr] = [(str.length), 0, null, null]
     if (len === 0) return hash
     for (i = 0 ; i < len; i++) {
@@ -15,8 +16,6 @@ export const hashCode = (str) => {
 
 /**
  * get title from file name
- *
- * @export
  * @param {string} fileName
  * @returns {string}
  */
@@ -28,7 +27,6 @@ export const getTitle = (fileName) => {
 
 /**
  * get publish date from file name
- * @export
  * @param {string} fileName
  * @returns {string}
  */
@@ -41,6 +39,10 @@ export const getDateStr = fileName => /^\d{4}-\d{1,2}-\d{1,2}/.exec(fileName)[0]
  */
 export const capitalizeFirstLetter = string => string.charAt(0).toUpperCase() + string.slice(1)
 
+/**
+ * 类型判断
+ * @param {any} source 
+ */
 const getType = source => Object.prototype.toString.call(source)
 
 /**

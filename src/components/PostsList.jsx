@@ -1,10 +1,11 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import PostsItem from './PostsItem'
-
 import { getDateStr } from '../utils'
 
 const PostsList = ({ list }) => {
     const postsList = list
+        .slice()
         .sort((postsA, postsB) => {
             const dateA = new Date(getDateStr(postsA.name)).getTime()
             const dateB = new Date(getDateStr(postsB.name)).getTime()
@@ -13,6 +14,10 @@ const PostsList = ({ list }) => {
         .map(file => <PostsItem file={ file } key={ file.sha } />)
     
     return list.length ? postsList : <div>Nothing ...</div>
+}
+
+PostsList.propTypes = {
+    list: PropTypes.array.isRequired
 }
 
 export default PostsList

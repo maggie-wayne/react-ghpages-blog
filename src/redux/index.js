@@ -20,8 +20,8 @@ const reducers = combineReducers({
     repo,
     content
 })
-
 const middleware = [ thunk, api, loding ]
+
 if (process.env.NODE_ENV !== 'production') {
     middleware.push(createLogger())
 }

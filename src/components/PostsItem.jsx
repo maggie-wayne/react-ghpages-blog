@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { getTitle, getDateStr } from '../utils'
 
@@ -24,6 +25,10 @@ const Posts = ({ file }) => {
             </time>
         </li>
     )
+}
+
+Posts.propTypes = {
+    file: PropTypes.object.isRequired
 }
 
 export default Posts

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
 const Category = ({ category }) => {
@@ -13,6 +14,10 @@ const Category = ({ category }) => {
             </Link>
         </li>
     )
+}
+
+Category.propTypes = {
+    category: PropTypes.object.isRequired
 }
 
 export default Category

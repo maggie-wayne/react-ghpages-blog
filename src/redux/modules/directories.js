@@ -21,7 +21,7 @@ export default (state = initalState, action) => {
         case DIR_FETCH_REQUEST:
             return {
                 ...state,
-                loading: false
+                loading: true
             }
         case DIR_FETCH_SUCCESS:
             return {

@@ -1,3 +1,7 @@
+branches:
+  only:
+    - dev
+
 language: node_js
 node_js:
   - lts/*
@@ -9,10 +13,10 @@ cache:
     - "node_modules"
 
 script:
-  - npm test
+  - yarn test
 
 after_success:
-  - npm build
+  - yarn build
 
 deploy:
   provider: pages
@@ -21,5 +25,4 @@ deploy:
   local-dir: build
   on:
     branch:
-      - master
       - dev

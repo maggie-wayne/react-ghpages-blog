@@ -3,19 +3,24 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { loadFileBySearch } from '../redux/modules/files'
 import { loadDirOrFileByPath } from '../redux/modules/directories'
+import { title } from '../config'
+import { capitalizeFirstLetter } from '../utils'
 
 import PostsList from '../components/PostsList'
 
 class PostsListContainer extends Component {
     componentWillMount () {
         this.getData(this.props)
+        this.setTitle(this.props)
     }
 
     componentWillReceiveProps (nextProps) {
         const loadUrl = this.props.loadUrl
         const nextUrl = nextProps.loadUrl
+
         if (loadUrl !== nextUrl) {
             this.getData(nextProps)
+            this.setTitle(nextProps)
         }
     }
 
@@ -26,6 +31,14 @@ class PostsListContainer extends Component {
         } else {
             loadDirOrFileByPath(loadUrl)
         }
+    }
+
+    setTitle (props) {
+        const path = props.loadUrl.split('/')
+        const level = path.length - 1
+        const currentLocation = capitalizeFirstLetter(path[level])
+        const pageTitle = currentLocation + (level ? ' - ' : '') + title
+        document.title = pageTitle
     }
 
     render () {

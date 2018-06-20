@@ -10,7 +10,7 @@ class CategoryListContainer extends Component {
     }
 
     render () {
-        const { categoryList, loading } = this.props
+        const { categoryList } = this.props
         const list = (
             <ul className="category-list-container clearfix">
                 {

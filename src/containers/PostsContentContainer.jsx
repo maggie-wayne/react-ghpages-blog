@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import PostsContent from '../components/PostsContent'
 import { loadFileDetail } from '../redux/modules/content'
 
-
 class PostsContentContainer extends Component {
 
     componentWillMount () {

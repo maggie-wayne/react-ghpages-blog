@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { HashRouter as Router, Route, Switch } from 'react-router-dom'
 
 import FooterBar from './components/FooterBar'
@@ -8,14 +8,13 @@ import PostsContentContainer from './containers/PostsContentContainer'
 
 import './style/main.less'
 
-class App extends Component {
-    render () {
-        return (
+const App = () => {
+    return (
         <Router>
             <div className="main-container">
                 <HeaderContainer />
                 <Switch>
-                    <Route 
+                    <Route
                         path="/*.md"
                         component={PostsContentContainer}
                     />
@@ -24,11 +23,10 @@ class App extends Component {
                         component={PostsListContainer}
                     />
                 </Switch>
-                <FooterBar/>
+                <FooterBar />
             </div>
         </Router>
-        )
-    }
+    )
 }
 
 export default App

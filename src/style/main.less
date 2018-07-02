@@ -27,6 +27,17 @@ body {
     font-weight: 400;
 }
 
+@media (max-width: 700px) {
+    body {
+        width: 100%;
+        min-width: 100%;
+    }
+
+    .posts-content-container {
+        padding: 0 0.5em;
+    }
+}
+
 .clearfix {
     overflow: hidden;
 }
@@ -90,20 +101,27 @@ body {
     }
 }
 
+@media (max-width: 700px) {
+    .posts-list-container .posts-date {
+        margin-left: 1em;
+        position: unset;
+    }
+}
+
 /* Posts content */
 .posts-content-container {
     .posts-title {
         margin: 0.5em 0 1em 0;
     }
     .posts-date {
-        display: block;
         color: @metaColor;
-        font-size: 0.2em;
+        margin-left: 1em;
+        font-size: 0.5em;
     }
 }
 
 .footer {
-    margin: auto;
+    margin: 2em 0 0 0;
     font-size: 0.618em;
     text-align: center;
     color: @metaColor;

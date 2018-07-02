@@ -1,16 +1,11 @@
 @fontSize: 16px;
 @lineHeight: 24px;
-@fontWeight: 400;
+@fontWeight: 300;
 
-@fontFamily: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimSun, sans-serif;
-@monospaceFontFamily: "Ubuntu Mono" ,"PT Mono", Consolas, Monaco, Menlo, monospace;
-
-@titleColor: #0d1a26;
-@textColor: #314659;
-@linkColor: #000;
-@bgColor: #fff;
+@textColor: #495057;
+@linkColor: #00f;
+@bgColor: #f6f8fa;
 @metaColor: #888;
-@codeBgColor: #f6f8fa;
 
 @import '~normalize.css';
 @import './githubMarkdown.less';
@@ -22,17 +17,14 @@
 
 /* Global */
 body {
-    width: 50%;
+    color: @textColor;
+
+    width: 40%;
     margin: 1em auto;
     min-width: 700px;
 
-    color: @textColor;
-    background: @bgColor;
-
     font-size: @fontSize;
     font-weight: 400;
-    line-height: @lineHeight;
-    font-family: @fontFamily;
 }
 
 .clearfix {
@@ -41,43 +33,34 @@ body {
 
 .a-style {
     color: @linkColor;
-    text-decoration-line: none;
-    font-weight: 500;
-    &:link, &:visited {
-        border-bottom: 1px black dotted;
-    }
-
-    &:hover {
-        border: none;
-    }
-}
-
-h1, h2, h3, h4, h5, h6 {
-    color: @titleColor;
+    font-style: italic;
 }
 
 /* Blog title */
 .blog-title {
-    margin: 0.5em 0;
-    text-align: center;
-    font-size: 2.2em;
-    font-weight: normal;
-
+    text-align: left;
+    font-size: 1em;
     a {
         .a-style;
-        border: none !important;
     }
 }
 
 /* Category list */
 .category-list-container {
+    background-color: @bgColor;
+    padding: 0.4em 0;
+    
     a {
         .a-style;
+        font-weight: 500;
     }
 
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
+    .category-list {
+        float: right;
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
 
     .category-item {
         float: left;
@@ -89,21 +72,20 @@ h1, h2, h3, h4, h5, h6 {
 .posts-list-container {
     a {
         .a-style;
+        letter-spacing: 0.05em;
     }
     .posts-list {
-        margin: 0 0.5em;
-        list-style-type: none;
-        padding: 0px;
+        list-style-type: square;
     }
 
     .posts-item {
-        display: block;
         position: relative;
-        margin: 0.5em 0;
+        margin: 0.8em 0;
     }
 
     .posts-date {
         position: absolute;
+        font-size: 0.6em;
         right: 0px;
     }
 }
@@ -111,7 +93,6 @@ h1, h2, h3, h4, h5, h6 {
 /* Posts content */
 .posts-content-container {
     .posts-title {
-        color: #000;
         margin: 0.5em 0 1em 0;
     }
     .posts-date {

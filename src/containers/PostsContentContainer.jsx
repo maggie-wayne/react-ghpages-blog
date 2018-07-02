@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PostsContent from '../components/PostsContent'
+import CommentsContainer from './CommentsContainer'
 import { loadFileDetail } from '../redux/modules/content'
 
 
@@ -12,9 +13,17 @@ class PostsContentContainer extends Component {
     }
     
     render () {
-        const { content } = this.props
+        const { content, loadUrl } = this.props
         const { loading } = content
-        return loading ? <div>Loading ...</div> : <PostsContent content={ content }/>
+
+        const postsBody = (
+            <div>
+                <PostsContent content={ content } location={ { pathname: '/posts' } }/>
+                <CommentsContainer repo='zowiegong/blog' postsUrl={ loadUrl }/>
+            </div>
+        )
+
+        return loading ? <div>Loading ...</div> : postsBody
     }
 }
 

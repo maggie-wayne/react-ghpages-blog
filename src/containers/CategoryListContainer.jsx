@@ -12,13 +12,13 @@ class CategoryListContainer extends Component {
     render () {
         const { categoryList } = this.props
         const list = (
-            <ul className="category-list-container clearfix">
+            <ul className="category-list clearfix">
                 {
                     categoryList.map(item => <Category category={ item } key={ item.sha }/>)
                 }
             </ul>
         )
-        return list
+        return <div className="category-list-container clearfix">{ list }</div>
     }
 }
 

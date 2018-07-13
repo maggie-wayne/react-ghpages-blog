@@ -1,5 +1,4 @@
-react-ghpages-blog
-===
+# react-ghpages-blog
 
 [![Build Status](https://travis-ci.org/zowiegong/react-ghpages-blog.svg?branch=dev)](https://travis-ci.org/zowiegong/react-ghpages-blog)
 
@@ -10,7 +9,8 @@ react-ghpages-blog
 React + Redux + webpack
 
 ## Usage
-```
+
+```shell
 git clone https://github.com/zowiegong/react-ghpages-blog.git
 
 cd react-ghpages-blog
@@ -18,13 +18,28 @@ cd react-ghpages-blog
 npm install
 # or
 yarn install
+```
 
-修改 src/config.js
+modify `src/config.js`
 
+```shell
 npm run build
 # or
 yarn build
 ```
 
+## Features
+
+- 使用 GitHub API 无需后台
+- 托管于 GitHub pages
+- 无需本地生成静态页面
+- 使用 Markdown 语法，由 GitHub 生成
+- 根据目录分类
+- LocalStorage 缓存
+- ~~基于 Issues 的评论~~
+- ~~Tag 标签~~
+- ~~无视 GitHub API 请求限制~~
+
 ## License
+
 MIT

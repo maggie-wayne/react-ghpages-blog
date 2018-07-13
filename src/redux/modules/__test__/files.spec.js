@@ -1,4 +1,5 @@
 import files from '../files'
+import { filterDraft } from '../files'
 
 describe('reducers', () => {
     describe('files', () => {
@@ -13,7 +14,12 @@ describe('reducers', () => {
                     name: '2018-05-05-Firefox 隐私设置.md',
                     path: 'posts/privacy/2018-05-05-Firefox 隐私设置.md',
                     sha: '21da41877719d97f67dc16e964e35c78b540537f'
-                }
+                },
+                {
+                    name: '[draft]2018-05-05-Firefox 隐私设置.md',
+                    path: 'posts/privacy/2018-05-05-Firefox 隐私设置.md',
+                    sha: '21da41877719d97f67dc16e964e35c78b540537f'
+                },
             ]
         }
         const MockDirResponse = [
@@ -55,7 +61,7 @@ describe('reducers', () => {
                 )
             ).toEqual({
                 loading: false,
-                items: MockResponse.items
+                items: MockResponse.items.slice(0, 2)
             })
         })
 

@@ -26,12 +26,12 @@ export default (state = initalState, action) => {
             }
         case FILE_FETCH_SUCCESS:
             return {
-                items: response.items,
+                items: filterDraft(response.items),
                 loading: false
             }
         case DIR_FETCH_SUCCESS:
             return {
-                items: response.filter(x => x.type === 'file'),
+                items: filterDraft(response.filter(x => x.type === 'file')),
                 loading: false
             }
         default:
@@ -63,6 +63,16 @@ const generateSearchUrl = option => {
     return `/search/${type}?${optionStr}`
 }
 
+/**
+ * filter draft posts, File name starting with [draft]
+ * @param {Array} list 
+ */
+export const filterDraft = list => list.filter(x => !x.name.startsWith('[draft]'))
+
+/**
+ * Search for files of type 'md'
+ * @param {string} query 
+ */
 export const loadFileBySearch = (query = '') => (dispatch, getState) => {
     const { owner, repo } = getState().config
     const option = {

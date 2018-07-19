@@ -14,7 +14,7 @@ import './style/nprogress.less'
 nprogress.start()
 isLoding.status = true
 
-store.dispatch(loadRepo())
+store.dispatch(loadRepo)
     .then(cache.inital)
     .then(() => {
         render(

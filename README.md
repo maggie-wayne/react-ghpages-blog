@@ -20,7 +20,7 @@ npm install
 yarn install
 ```
 
-modify `src/config.js`
+配置 `src/config.js`
 
 ```shell
 npm run build
@@ -36,9 +36,9 @@ yarn build
 - 使用 Markdown 语法，由 GitHub 生成
 - 根据目录分类
 - LocalStorage 缓存
-- ~~基于 Issues 的评论~~
+- 基于 Issues 的评论(基本功能)
 - ~~Tag 标签~~
-- ~~无视 GitHub API 请求限制~~
+- ~~处理 GitHub API 请求限制~~
 
 ## License
 

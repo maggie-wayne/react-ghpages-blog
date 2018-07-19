@@ -12,7 +12,7 @@ const MockData = {
 describe('components', () => {
     describe('postsContent', () => {
         it('Test postsContent components.', () => {
-            const wrapper = shallow(<PostsContent content={MockData} />)
+            const wrapper = shallow(<PostsContent file={MockData} />)
             const title = getTitle(MockData.fileName)
             const date = getDateStr(MockData.fileName)
 

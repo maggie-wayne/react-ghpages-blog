@@ -7,6 +7,8 @@ export const FILE_DETAIL_REQUEST = 'FILE_DETAIL_REQUEST'
 export const FILE_DETAIL_FAILURE = 'FILE_DETAIL_FAILURE'
 export const FILE_DETAIL_SUCCESS = 'FILE_DETAIL_SUCCESS'
 
+export const DELETE_FILE_DETAIL = 'DELETE_FILE_DETAIL'
+
 const initalState = {
     loading: true
 }
@@ -19,6 +21,7 @@ export default (state = initalState, action) => {
     switch (type) {
         case FILE_DETAIL_REQUEST:
             return {
+                ...state,
                 loading: true
             }
         case FILE_DETAIL_SUCCESS:
@@ -26,6 +29,10 @@ export default (state = initalState, action) => {
                 html: response,
                 loading: false,
                 fileName
+            }
+        case 'test':
+            return {
+                loading: true
             }
         default:
             return state
@@ -61,4 +68,10 @@ export const loadFileDetail = path => (dispatch, getState) => {
     }
 
     return dispatch(fetchFileDetail(params, fileName))
+}
+
+export const deleteContent = () => (dispatch, getState) => {
+    dispatch({
+        type: DELETE_FILE_DETAIL
+    })
 }

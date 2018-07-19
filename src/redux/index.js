@@ -12,13 +12,17 @@ import files from './modules/files'
 import directories from './modules/directories'
 import repo from './modules/repo'
 import content from './modules/content'
+import issues from './modules/issues'
+import comments from './modules/comments'
 
 const reducers = combineReducers({
     config: () => conf,
     files,
     directories,    
     repo,
-    content
+    content,
+    issues,
+    comments
 })
 const middleware = [ thunk, api, loding ]
 

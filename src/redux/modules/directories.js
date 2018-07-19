@@ -16,16 +16,19 @@ const initalState = {
  * Redecer
  */
 export default (state = initalState, action) => {
-    const { type, response } = action
+    let { type, response } = action
     switch (type) {
         case DIR_FETCH_REQUEST:
             return {
                 ...state,
                 loading: true
             }
+
         case DIR_FETCH_SUCCESS:
+            response = response.filter(x => x.type === 'dir')
+            response = state.items.concat(response)
             return {
-                items: state.items.concat(response.filter(x => x.type === 'dir')),
+                items: response,
                 loading: false
             }
         default:
@@ -43,6 +46,10 @@ const fetchDir = params => ({
     }
 })
 
+/**
+ * 获取目录
+ * @param {String} path 
+ */
 export const loadDirOrFileByPath =  (path = '') => (dispatch, getState) => {
     path = path === '/' ? '' : path
     const { owner, repo } = getState().config

@@ -1,5 +1,6 @@
 import { CALL_API } from '../middleware/api'
 import { DIR_FETCH_SUCCESS } from './directories'
+import uniqby from 'lodash.uniqby'
 
 /**
  * Actions
@@ -17,23 +18,31 @@ const initalState = {
  * Redecer
  */
 export default (state = initalState, action) => {
-    const { type, response } = action
+    let { type, response } = action
     switch (type) {
         case FILE_FETCH_REQUEST:
             return {
                 ...state,
                 loading: true
             }
+
         case FILE_FETCH_SUCCESS:
+            response = filterDraft(response.items)
+            response = response.concat(state.items || [])
             return {
-                items: filterDraft(response.items),
+                items: uniqby(response, x => x.sha),
                 loading: false
             }
+
         case DIR_FETCH_SUCCESS:
+            response = response.filter(x => x.type === 'file')
+            response = filterDraft(response)
+            response = response.concat(state.items || [])
             return {
-                items: filterDraft(response.filter(x => x.type === 'file')),
+                items: uniqby(response, x => x.sha),
                 loading: false
             }
+
         default:
             return state
     }
@@ -49,6 +58,10 @@ const fetchFileList = params => ({
     }
 })
 
+/**
+ * 生成搜索 url
+ * @param {Object} option 
+ */
 const generateSearchUrl = option => {
     const { query, type } = option
 
@@ -64,13 +77,13 @@ const generateSearchUrl = option => {
 }
 
 /**
- * filter draft posts, File name starting with [draft]
+ * 过滤草稿，文件名以 [draft] 开头
  * @param {Array} list 
  */
 export const filterDraft = list => list.filter(x => !x.name.startsWith('[draft]'))
 
 /**
- * Search for files of type 'md'
+ * 搜索 'md' 文件
  * @param {string} query 
  */
 export const loadFileBySearch = (query = '') => (dispatch, getState) => {

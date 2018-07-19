@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { getTitle, getDateStr } from '../utils'
 
-const PostsContent = ({ content }) => {
-    const { html, fileName } = content
+const PostsContent = ({ file }) => {
+    const { html, fileName } = file
     const title = getTitle(fileName)
     const postsDate = getDateStr(fileName)
 
@@ -21,7 +21,7 @@ const PostsContent = ({ content }) => {
 }
 
 PostsContent.propTypes = {
-    content: PropTypes.object.isRequired
+    file: PropTypes.object.isRequired
 }
 
 export default PostsContent

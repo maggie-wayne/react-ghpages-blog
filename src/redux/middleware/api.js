@@ -32,14 +32,12 @@ export default store => next => action => {
         throw new Error('Expected action cache to be boolean.')
     }
 
-
     // 生成最终的Action
     const actionWith = data => {
         const finalAction = {...action, ...data}
         delete finalAction[CALL_API]
         return finalAction
     }
-
     
     // dispatch request action
     const [request, success, failure] = types

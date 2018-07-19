@@ -131,3 +131,69 @@ body {
         }
     }
 }
+
+/* Comments */
+.comment-list {
+    list-style-type: none;
+    margin: 20px 0;
+    padding: 0;
+
+    .comment-item {
+        position: relative;
+        display: block;
+        margin: 1em 0;
+        padding: 0.5em;
+        box-shadow:  1px 1px 0.5em @metaColor; 
+
+        .comment-user {
+            font-weight: 700;
+        }
+        
+        .comment-user-img {
+            position: absolute;
+            top: 2em;
+            display: none;
+            width: 26px;
+            height: 26px;
+        }
+        .comment-user:hover .comment-user-img {
+            display: block;
+        }
+
+        .comment-meta {
+            color: @metaColor;
+            font-size: 0.5em;
+        }
+
+        .comment-reactions {
+            float: right;
+        }
+
+        .user-tag {
+            font-size: 0.2em;
+        }
+
+        .comment-body {
+            margin: 1em 0 1em 2em;
+        }
+    }
+}
+
+.comment-editor .input {
+    margin: 1em 0;
+    button {
+        margin-top: 1em;
+        float: right;
+    }
+}
+
+.comment-editor textarea {
+    display: block;
+    width: 100%;
+    min-height: 150px;
+    padding: 1em;
+    box-sizing: border-box; 
+    resize: vertical;
+    line-height: @lineHeight;
+    box-shadow:  1px 1px 0.5em @metaColor; 
+}

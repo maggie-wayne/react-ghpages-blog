@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Login ...</title>
+</head>
+<body>
+    Waiting ...
+    <script>
+        const url = window.location.href
+        const code = getParameterByName('code', url)
+        
+        if (code) {
+            fetch(
+                'https://gh-oauth.imsun.net/',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        code,
+                        client_id: '8622cc9adc195017b14d',
+                        client_secret: 'b666291232352418397204ed1c50e2ec24e29e7c',
+                    })
+                }
+            )
+            .then(response => {
+                if (response.ok) return response
+                alert('Failed')
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.access_token) {
+                    window.localStorage.setItem('access_token', result.access_token)
+                } else alert('Error')
+                window.close()
+            })
+        }
+
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href
+            name = name.replace(/[[\]]/g, '\\$&')
+            const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)')
+            const results = regex.exec(url)
+
+            if (!results) return null
+            if (!results[2]) return ''
+            return decodeURIComponent(results[2].replace(/\+/g, ' '))
+        }
+    </script>
+</body>
+</html>

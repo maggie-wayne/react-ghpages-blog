@@ -41,7 +41,10 @@ const fetchRepo = params => ({
     }
 })
 
-export const loadRepo = () => (dispatch, getState) => {
+/**
+ * 获取仓库信息
+ */
+export const loadRepo = (dispatch, getState) => {
     const { owner, repo } = getState().config
     const params = {
         url: `/repos/${owner}/${repo}`,

@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import CommentContainer from './CommentContainer'
 import PostsContent from '../components/PostsContent'
-import { loadFileDetail } from '../redux/modules/content'
+import { loadFileDetail, deleteContent } from '../redux/modules/content'
 
 class PostsContentContainer extends Component {
 
@@ -9,14 +10,19 @@ class PostsContentContainer extends Component {
         const { loadUrl, loadFileDetail } = this.props
         loadFileDetail(loadUrl)
     }
-    
-    render () {
-        const { content } = this.props
-        const { loading } = content
 
+    componentWillUnmount() {
+        this.props.deleteContent()
+    }
+
+    render () {
+        const { content, showComment } = this.props
+        const { loading, fileName } = content
+        
         const postsBody = (
             <div>
-                <PostsContent content={ content } location={ { pathname: '/posts' } }/>
+                <PostsContent file={ content } />
+                { showComment && <CommentContainer fileName={ fileName }/> }
             </div>
         )
 
@@ -26,6 +32,7 @@ class PostsContentContainer extends Component {
 
 const mapStateToProps = (state, ownProps) => {
    return {
+       showComment: state.config.comment,
        loadUrl: ownProps.match.params[0] + '.md',
        content: state.content
    }
@@ -34,6 +41,7 @@ const mapStateToProps = (state, ownProps) => {
 export default connect(
     mapStateToProps,
     {
-        loadFileDetail
+        loadFileDetail,
+        deleteContent
     }
 )(PostsContentContainer)

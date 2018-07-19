@@ -1,5 +1,4 @@
 import files from '../files'
-import { filterDraft } from '../files'
 
 describe('reducers', () => {
     describe('files', () => {
@@ -18,7 +17,7 @@ describe('reducers', () => {
                 {
                     name: '[draft]2018-05-05-Firefox 隐私设置.md',
                     path: 'posts/privacy/2018-05-05-Firefox 隐私设置.md',
-                    sha: '21da41877719d97f67dc16e964e35c78b540537f'
+                    sha: '21da41877719d97f67dc16e964e35c78b540538f'
                 },
             ]
         }
@@ -33,7 +32,7 @@ describe('reducers', () => {
                 name: '2018-05-05-Firefox 隐私设置.md',
                 path: 'posts/privacy/2018-05-05-Firefox 隐私设置.md',
                 type: 'file',
-                sha: '21da41877719d97f67dc16e964e35c78b540537f'
+                sha: '21da41877719d97f67dc16e964e35c78b540539f'
             }
         ]
 

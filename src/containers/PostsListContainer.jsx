@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { loadFileBySearch } from '../redux/modules/files'
-import { loadDirOrFileByPath } from '../redux/modules/directories'
+import { loadFiles } from '../redux/modules/files'
 import { title } from '../config'
 import { capitalizeFirstLetter } from '../utils'
 
@@ -25,12 +24,8 @@ class PostsListContainer extends Component {
     }
 
     getData (props) {
-        const { loadUrl, loadFileBySearch, loadDirOrFileByPath } = props
-        if (loadUrl === '') {
-            loadFileBySearch()
-        } else {
-            loadDirOrFileByPath(loadUrl)
-        }
+        const { loadUrl, loadFiles } = props
+        loadFiles(loadUrl)
     }
 
     setTitle (props) {
@@ -56,9 +51,12 @@ class PostsListContainer extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     const { items, loading } = state.files
+    const loadUrl = ownProps.match.params[0]
+    const cacheKey = loadUrl || '/'
+
     return {
-        loadUrl: ownProps.match.params[0],
-        postsList: items,
+        loadUrl,
+        postsList: items[cacheKey] || [],
         loading
     }
 }
@@ -67,8 +65,7 @@ export default withRouter(
     connect(
         mapStateToProps,
         {
-            loadFileBySearch,
-            loadDirOrFileByPath
+            loadFiles
         }
     )(PostsListContainer)
 )

@@ -1,5 +1,6 @@
-import { CALL_API } from '../middleware/api'
+import { apiActionCreator } from '../middleware/api'
 import uniqby from 'lodash.uniqby'
+import { hashCode } from '../../utils'
 
 /**
  * Actions
@@ -48,26 +49,7 @@ export default (state = initalState, action) => {
 }
 
 /**
- * Action creator
- */
-const fetchComments = ({ callApi, payload }) => ({
-    ...payload,
-    [CALL_API]: {
-        types: [COMMENT_FETCH_REQUEST, COMMENT_FETCH_SUCCESS, COMMENT_FETCH_FAILURE],
-        ...callApi
-    }
-})
-
-const commentCreateCreator = ({ callApi, payload }) => ({
-    ...payload,
-    [CALL_API]: {
-        types: [COMMENT_CREATE_REQUEST, COMMENT_CREATE_SUCCESS, COMMENT_CREATE_FAILURE],
-        ...callApi
-    }
-})
-
-/**
- * 生成请参数
+ * 生成请求参数
  * @param {*} owner 
  * @param {*} repo 
  * @param {*} issueNum 
@@ -78,14 +60,14 @@ const commentCreateCreator = ({ callApi, payload }) => ({
  * https://developer.github.com/v3/issues/comments/#comments
  * https://developer.github.com/v3/issues/comments/#reactions-summary
  */
-const makeCallApi = (owner, repo, issueNum, method, params: {}) => ({
+const makeApi = (owner, repo, issueNum, method, params: {}) => ({
     url: `https://api.github.com/repos/${owner}/${repo}/issues/${issueNum}/comments`,
     method,
     params,
     cache: false,
     option: {
         headers: {
-            'Accept': 'application/vnd.github.VERSION.html+json,application/vnd.github.squirrel-girl-preview',
+            'Accept': 'application/vnd.github.3.html+json,application/vnd.github.squirrel-girl-preview',
         }
     }
 })
@@ -93,17 +75,19 @@ const makeCallApi = (owner, repo, issueNum, method, params: {}) => ({
 /**
  * 获取评论
  */
-export const loadComments = () => (dispatch, getState) => {
-    const { config: { owner, repo }, content: { fileName }, issues: { items } } = getState()
-    const issue = items[fileName]
+export const loadComments = fileName => (dispatch, getState) => {
+    const { config: { owner, repo }, issues: { items } } = getState()
+    const issueCackeKey = hashCode(fileName)
+    const issue = items[issueCackeKey]
     const issueNum = issue && issue.number
     if (!issueNum) return
 
-    const callApi = makeCallApi(owner, repo, issueNum, 'GET')
+    const api = makeApi(owner, repo, issueNum, 'GET')
+    const types = [COMMENT_FETCH_REQUEST, COMMENT_FETCH_SUCCESS, COMMENT_FETCH_FAILURE]
     const payload = { issueNum }
 
     return dispatch(
-        fetchComments({ callApi, payload })
+        apiActionCreator(api, types, payload)
     )
 }
 
@@ -115,10 +99,12 @@ export const loadComments = () => (dispatch, getState) => {
 export const createComment = (issueNum, body) => (dispatch, getState) => {
     const { owner, repo } = getState().config
 
-    const callApi = makeCallApi(owner, repo, issueNum, 'POST', { body })
+    const api = makeApi(owner, repo, issueNum, 'POST', { body })
+    const types = [COMMENT_CREATE_REQUEST, COMMENT_CREATE_SUCCESS, COMMENT_CREATE_FAILURE]
     const payload = { issueNum }
 
     return dispatch(
-        commentCreateCreator({ callApi, payload })
+        apiActionCreator(api, types, payload)
     )
 }
+

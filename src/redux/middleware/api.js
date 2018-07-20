@@ -4,6 +4,25 @@ import axios from '../../plugins/axios'
 export const CALL_API = 'CALL_API'
 
 /**
+ * CallAPI action creator
+ * @param {Object} api 
+ * @param {Array} types 
+ * @param {Object} payload 
+ */
+export const apiActionCreator = (api, types, payload = {}) => {
+    const callApi = {
+        [CALL_API]: {
+            types,
+            ...api
+        }
+    }
+    return {
+        ...payload,
+        ...(api && types && callApi)
+    }
+}
+
+/**
  * callapi 中间件
  */
 export default store => next => action => {

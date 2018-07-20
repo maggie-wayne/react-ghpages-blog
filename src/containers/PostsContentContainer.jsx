@@ -2,46 +2,46 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import CommentContainer from './CommentContainer'
 import PostsContent from '../components/PostsContent'
-import { loadFileDetail, deleteContent } from '../redux/modules/content'
+import { loadFileDetail } from '../redux/modules/contents'
+import { hashCode } from '../utils'
 
 class PostsContentContainer extends Component {
 
     componentWillMount () {
-        const { loadUrl, loadFileDetail } = this.props
-        loadFileDetail(loadUrl)
-    }
-
-    componentWillUnmount() {
-        this.props.deleteContent()
+        const { filePath, loadFileDetail } = this.props
+        loadFileDetail(filePath)
     }
 
     render () {
-        const { content, showComment } = this.props
-        const { loading, fileName } = content
+        const { file, showComment, loading } = this.props
         
-        const postsBody = (
+        const postsBody = file ? (
             <div>
-                <PostsContent file={ content } />
-                { showComment && <CommentContainer fileName={ fileName }/> }
+                <PostsContent file={ file } />
+                { showComment && <CommentContainer fileName={ file.fileName }/> }
             </div>
-        )
+        ) : null
 
         return loading ? <div>Loading ...</div> : postsBody
     }
 }
 
 const mapStateToProps = (state, ownProps) => {
-   return {
-       showComment: state.config.comment,
-       loadUrl: ownProps.match.params[0] + '.md',
-       content: state.content
-   }
+    const filePath = ownProps.match.params[0] + '.md'
+    const cacheKey = hashCode(filePath)
+    const file = state.contents.items[cacheKey] || null
+
+    return {
+        filePath,
+        file,
+        showComment: state.config.comment,
+        loading: state.contents.loading,
+    }
 }
 
 export default connect(
     mapStateToProps,
     {
-        loadFileDetail,
-        deleteContent
+        loadFileDetail
     }
 )(PostsContentContainer)

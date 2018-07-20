@@ -40,6 +40,8 @@ export default async config => {
     const method = config.method.toLocaleLowerCase()
     const cacheKey = makeCacheKey(url, params)
 
+    params = method === 'get' ? option : params
+
     // 过滤重复请求
     if (queue.indexOf(cacheKey) !== -1) {
         return Promise.reject({
@@ -58,7 +60,6 @@ export default async config => {
         // 写入缓存
         !hasCache && localforage.set(cacheKey, response)
     } else {
-        params = method === 'get' ? option : params
         response = await instance[method](url, params, option)
     }
 

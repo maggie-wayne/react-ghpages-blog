@@ -5,6 +5,7 @@ import { loadIssues, createIssue } from '../redux/modules/issues'
 import OAuth from '../plugins/oauth'
 import CommentList from '../components/CommentList'
 import CommentEditor from '../components/CommentEditor'
+import { hashCode } from '../utils'
 
 class CommentContainer extends Component {
     constructor(props) {
@@ -16,7 +17,7 @@ class CommentContainer extends Component {
     }
 
     async componentDidMount() {
-        const { loadIssues, loadComments } = this.props
+        const { loadIssues, loadComments, fileName } = this.props
         let user = null
 
         try {
@@ -28,8 +29,8 @@ class CommentContainer extends Component {
             user
         })
         
-        await loadIssues()
-        await loadComments()
+        await loadIssues(fileName)
+        await loadComments(fileName)
     }
 
     async createIssue() {
@@ -110,7 +111,7 @@ class CommentContainer extends Component {
         )
 
         return (
-            <div>
+            <div className="comments">
                 <div>
                     <div className="comments-title">
                         <h1>Comments</h1>
@@ -125,9 +126,9 @@ class CommentContainer extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     const fileName = ownProps.fileName
-    const issue = state.issues.items[fileName] || null
+    const cacheKey = hashCode(fileName)
+    const issue = state.issues.items[cacheKey] || null
     const issueNum = issue && issue.number
-
     return {
         fileName,
         issueNum,

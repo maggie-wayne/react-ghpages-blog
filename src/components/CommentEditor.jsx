@@ -20,6 +20,7 @@ const CommentEditor = ({ value, user, login, logout, submit, change }) => {
             <div className="input">
                 <textarea disabled={!user} value={value} onChange={change} name="comment-value" ></textarea>
                 { user ? submitBtn : signIn }
+                <div className="clear-float"></div>
             </div>
         </div>
     )

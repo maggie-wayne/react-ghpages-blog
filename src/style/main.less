@@ -33,7 +33,7 @@ body {
         min-width: 100%;
     }
 
-    .posts-content-container {
+    .posts-content-container, .comments {
         padding: 0 0.5em;
     }
 }
@@ -195,5 +195,10 @@ body {
     box-sizing: border-box; 
     resize: vertical;
     line-height: @lineHeight;
+    border: none;
     box-shadow:  1px 1px 0.5em @metaColor; 
+}
+
+.clear-float {
+    clear: both;
 }

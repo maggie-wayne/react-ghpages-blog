@@ -1,4 +1,4 @@
-import { CALL_API } from '../middleware/api'
+import { apiActionCreator } from '../middleware/api'
 
 /**
  * Actions
@@ -37,30 +37,21 @@ export default (state = initalState, action) => {
 }
 
 /**
- * Action creator
- */
-const fetchDir = params => ({
-    [CALL_API]: {
-        types: [DIR_FETCH_REQUEST, DIR_FETCH_SUCCESS, DIR_FETCH_FAILURE],
-        ...params
-    }
-})
-
-/**
  * 获取目录
  * @param {String} path 
  */
 export const loadDirOrFileByPath =  (path = '') => (dispatch, getState) => {
-    path = path === '/' ? '' : path
     const { owner, repo } = getState().config
 
-    const params = {
+    const api = {
         url: `/repos/${owner}/${repo}/contents/${path}`,
         method: 'GET',
         cache: true
     }
-
+    const types = [DIR_FETCH_REQUEST, DIR_FETCH_SUCCESS, DIR_FETCH_FAILURE]
+    const payload = { cacheKey: path }
+    
     return dispatch(
-        fetchDir(params)
+        apiActionCreator(api, types, payload)
     )
 }

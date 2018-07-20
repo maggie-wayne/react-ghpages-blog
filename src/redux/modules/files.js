@@ -1,6 +1,5 @@
-import { CALL_API } from '../middleware/api'
-import { DIR_FETCH_SUCCESS } from './directories'
-import uniqby from 'lodash.uniqby'
+import { apiActionCreator } from '../middleware/api'
+import { DIR_FETCH_SUCCESS, loadDirOrFileByPath } from './directories'
 
 /**
  * Actions
@@ -18,7 +17,7 @@ const initalState = {
  * Redecer
  */
 export default (state = initalState, action) => {
-    let { type, response } = action
+    let { type, response, cacheKey } = action
     switch (type) {
         case FILE_FETCH_REQUEST:
             return {
@@ -28,35 +27,28 @@ export default (state = initalState, action) => {
 
         case FILE_FETCH_SUCCESS:
             response = filterDraft(response.items)
-            response = response.concat(state.items || [])
             return {
-                items: uniqby(response, x => x.sha),
+                items: {
+                    ...state.items,
+                    [cacheKey]: response
+                },
                 loading: false
             }
 
         case DIR_FETCH_SUCCESS:
             response = response.filter(x => x.type === 'file')
             response = filterDraft(response)
-            response = response.concat(state.items || [])
             return {
-                items: uniqby(response, x => x.sha),
+                items: {
+                    ...state.items,
+                    [cacheKey]: response
+                },
                 loading: false
             }
-
         default:
             return state
     }
 }
-
-/**
- * Action creator
- */
-const fetchFileList = params => ({
-    [CALL_API]: {
-        types: [FILE_FETCH_REQUEST, FILE_FETCH_SUCCESS, FILE_FETCH_FAILURE],
-        ...params
-    }
-})
 
 /**
  * 生成搜索 url
@@ -80,27 +72,42 @@ const generateSearchUrl = option => {
  * 过滤草稿，文件名以 [draft] 开头
  * @param {Array} list 
  */
-export const filterDraft = list => list.filter(x => !x.name.startsWith('[draft]'))
+const filterDraft = list => list.filter(x => !x.name.startsWith('[draft]'))
 
 /**
  * 搜索 'md' 文件
  * @param {string} query 
  */
-export const loadFileBySearch = (query = '') => (dispatch, getState) => {
-    const { owner, repo } = getState().config
+const loadFileBySearch = (query = '') => (dispatch, getState) => {
+    const { config: { owner, repo }, files: {items} } = getState()
+
+    const cacheKey = query || '/'
+    if (cacheKey in items) return
+
     const option = {
         query,
         type: 'code',
         extension: 'md',
         repo: `${owner}/${repo}`
     }
-    const params = {
+
+    const api = {
         url: generateSearchUrl(option),
         method: 'GET',
         cache: true
     }
+    const types = [FILE_FETCH_REQUEST, FILE_FETCH_SUCCESS, FILE_FETCH_FAILURE]
+    const payload = { cacheKey }
 
     return dispatch(
-        fetchFileList(params)
+        apiActionCreator(api, types, payload)
     )
+}
+
+export const loadFiles = (path) => (dispatch, getState) => {
+    if (path) {
+        dispatch(loadDirOrFileByPath(path))
+    } else {
+        dispatch(loadFileBySearch())
+    }
 }

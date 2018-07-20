@@ -11,7 +11,7 @@ import conf from '../config'
 import files from './modules/files'
 import directories from './modules/directories'
 import repo from './modules/repo'
-import content from './modules/content'
+import contents from './modules/contents'
 import issues from './modules/issues'
 import comments from './modules/comments'
 
@@ -20,7 +20,7 @@ const reducers = combineReducers({
     files,
     directories,    
     repo,
-    content,
+    contents,
     issues,
     comments
 })

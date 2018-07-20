@@ -1,5 +1,5 @@
-import { CALL_API } from '../middleware/api'
-import { arr2KeyValue } from '../../utils'
+import { apiActionCreator } from '../middleware/api'
+import { arr2KeyValue, hashCode } from '../../utils'
 
 /**
  * Actions
@@ -35,7 +35,7 @@ export default (state = initalState, action) => {
             return {
                 items: {
                     ...state.items,
-                    ...arr2KeyValue(response, 'title')
+                    ...arr2KeyValue(response, 'title', hashCode)
                 },
                 loading: false
             }
@@ -46,38 +46,23 @@ export default (state = initalState, action) => {
 }
 
 /**
- * Action creator
- */
-const fetchIssues = params => ({
-    [CALL_API]: {
-        types: [ISSUE_FETCH_REQUEST, ISSUE_FETCH_SUCCESS, ISSUE_FETCH_FAILURE],
-        ...params
-    }
-})
-
-const issueCreateCreator = params => ({
-    [CALL_API]: {
-        types: [ISSUE_CREATE_REQUEST, ISSUE_CREATE_SUCCESS, ISSUE_CREATE_FAILURE],
-        ...params
-    }
-})
-
-/**
  * 获取 Issues
  * @param {string} query 
  */
-export const loadIssues = () => (dispatch, getState) => {
-    const { config: {owner, repo}, issues, content } = getState()
-    if(content.fileName in issues.items) return
+export const loadIssues = (fileName) => (dispatch, getState) => {
+    const { config: {owner, repo}, issues: { items } } = getState()
+    const cacheKey = hashCode(fileName)
+    if(cacheKey in items) return
 
-    const params = {
+    const api = {
         url: `https://api.github.com/repos/${owner}/${repo}/issues`,
         method: 'GET',
         cache: false
     }
+    const types = [ISSUE_FETCH_REQUEST, ISSUE_FETCH_SUCCESS, ISSUE_FETCH_FAILURE]
 
     return dispatch(
-        fetchIssues(params)
+        apiActionCreator(api, types)
     )
 }
 
@@ -89,7 +74,7 @@ export const loadIssues = () => (dispatch, getState) => {
 export const createIssue = (title, url) => (dispatch, getState) => {
     const { owner, repo } = getState().config
 
-    const params = {
+    const api = {
         url: `/repos/${owner}/${repo}/issues`,
         method: 'POST',
         params: {
@@ -98,8 +83,9 @@ export const createIssue = (title, url) => (dispatch, getState) => {
         },
         cache: false,
     }
+    const types = [ISSUE_CREATE_REQUEST, ISSUE_CREATE_SUCCESS, ISSUE_CREATE_FAILURE]
 
     return dispatch(
-        issueCreateCreator(params)
+        apiActionCreator(api, types)
     )
 } 

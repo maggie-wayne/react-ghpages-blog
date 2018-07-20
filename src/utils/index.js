@@ -76,14 +76,18 @@ export const isType = (source, type) => {
     return getType(source) === typeMap[type]
 }
 
-export const arr2KeyValue = (arr, key) => {
+export const arr2KeyValue = (arr, key, cb) => {
     if (!isType(arr, 'array') && !isType(arr, 'object')) return {}
     arr = isType(arr, 'object') ? [arr] : arr
 
     if(arr.length === 0) return {}
 
     return arr.reduce((o, item) => {
-        o[item[key]] = item
+        if(cb) {
+            o[cb(item[key])] = item
+        } else {
+            o[item[key]] = item
+        }
         return o
     }, {})
 }

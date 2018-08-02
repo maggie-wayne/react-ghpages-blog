@@ -1,5 +1,4 @@
 import files from '../files'
-
 describe('reducers', () => {
     describe('files', () => {
         const MockResponse = {
@@ -55,12 +54,15 @@ describe('reducers', () => {
                     {},
                     {
                         type: 'FILE_FETCH_SUCCESS',
-                        response: MockResponse
+                        response: MockResponse,
+                        cacheKey: 'test'
                     }
                 )
             ).toEqual({
                 loading: false,
-                items: MockResponse.items.slice(0, 2)
+                items: {
+                    test: MockResponse.items.slice(0, 2)
+                }
             })
         })
 
@@ -70,12 +72,15 @@ describe('reducers', () => {
                     {},
                     {
                         type: 'DIR_FETCH_SUCCESS',
-                        response: MockDirResponse
+                        response: MockDirResponse,
+                        cacheKey: 'test'
                     }
                 )
             ).toEqual({
                 loading: false,
-                items: [MockDirResponse[1]]
+                items: {
+                    test: [MockDirResponse[1]]
+                }
             })
         })
     })

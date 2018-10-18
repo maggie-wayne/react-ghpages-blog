@@ -31,8 +31,8 @@ const has = async key => {
  */
 const inital = async (repoInfo) => {
     if (isInit) return isInit
-    
-    const version = new Date(repoInfo.updatedAt).getTime()
+
+    const version = new Date(repoInfo.pushedAt).getTime()
     localforage.config({
         name: conf.repo,
         storeName: version.toString()

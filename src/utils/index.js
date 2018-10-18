@@ -30,7 +30,9 @@ export const getTitle = (fileName) => {
  * @param {string} fileName
  * @returns {string}
  */
-export const getDateStr = fileName => /^\d{4}-\d{1,2}-\d{1,2}/.exec(fileName)[0]
+export const getDateStr = fileName => {
+    return /^\d{4}-\d{1,2}-\d{1,2}/.exec(fileName)[0]
+}
 
 /**
  * 首字母大写

@@ -11,28 +11,21 @@
         
         if (code) {
             fetch(
-                'https://github.com/login/oauth/access_token',
+                `https://react-ghpages-blog-oauth.herokuapp.com/authenticate/${code}`,
                 {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        code,
-                        client_id: '8622cc9adc195017b14d',
-                        client_secret: 'b666291232352418397204ed1c50e2ec24e29e7c',
-                    })
+                    method: 'GET'
                 }
             )
             .then(response => {
                 if (response.ok) return response
+                debugger
                 alert('Failed')
             })
             .then(response => response.json())
             .then(result => {
-                if (result.access_token) {
-                    window.localStorage.setItem('access_token', result.access_token)
+                const token = result.token
+                if (token) {
+                    window.localStorage.setItem('access_token', token)
                 } else alert('Error')
                 window.close()
             })

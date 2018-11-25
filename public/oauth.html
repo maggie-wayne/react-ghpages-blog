@@ -5,41 +5,23 @@
 </head>
 <body>
     Waiting ...
+
     <script>
-        const url = window.location.href
-        const code = getParameterByName('code', url)
-        
+        const code = window.location.href.match(/\?code=(.*)/)[1]
         if (code) {
             fetch(
-                `https://react-ghpages-blog-oauth.herokuapp.com/authenticate/${code}`,
-                {
-                    method: 'GET'
-                }
-            )
-            .then(response => {
+                `https://react-ghpages-blog-oauth.herokuapp.com/authenticate/${code}`
+            ).then(response => {
                 if (response.ok) return response
-                debugger
                 alert('Failed')
-            })
-            .then(response => response.json())
-            .then(result => {
-                const token = result.token
-                if (token) {
-                    window.localStorage.setItem('access_token', token)
-                } else alert('Error')
-                window.close()
-            })
-        }
-
-        function getParameterByName(name, url) {
-            if (!url) url = window.location.href
-            name = name.replace(/[[\]]/g, '\\$&')
-            const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)')
-            const results = regex.exec(url)
-
-            if (!results) return null
-            if (!results[2]) return ''
-            return decodeURIComponent(results[2].replace(/\+/g, ' '))
+            }).then(response => response.json())
+                .then(result => {
+                    const token = result.token
+                    if (token) {
+                        window.localStorage.setItem('access_token', token)
+                    } else alert('Error')
+                    window.close()
+                })
         }
     </script>
 </body>

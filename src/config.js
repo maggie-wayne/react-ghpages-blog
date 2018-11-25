@@ -9,8 +9,8 @@ module.exports = {
     baseURL: 'https://api.github.com',
     requestTimeOut: 20 * 1000,
 
-    // 开启评论需修改 /public/oauth.html 的 client_id、client_secret 值，从 https://github.com/settings/applications/new 注册获取
     comment: true,
+    // client_id 从 https://github.com/settings/applications/new 注册获取
     client_id: '8622cc9adc195017b14d',
 
     owner: 'zowiegong',

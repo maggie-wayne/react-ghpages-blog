@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import CategoryList  from './CategoryListContainer'
+import CategoryListContainer  from './CategoryListContainer'
 
 class NavContainer extends Component {
     render () {
@@ -13,9 +13,10 @@ class NavContainer extends Component {
                         { title }
                     </Link>
                 </h1>
-                <hr/>
-                <CategoryList />
-                <hr/>
+                <div>
+                    
+                </div>
+                <CategoryListContainer />
             </header>
         )
     }

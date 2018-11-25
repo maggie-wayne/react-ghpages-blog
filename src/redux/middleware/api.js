@@ -4,6 +4,25 @@ import axios from '../../plugins/axios'
 export const CALL_API = 'CALL_API'
 
 /**
+ * CallAPI action creator
+ * @param {Object} api 
+ * @param {Array} types 
+ * @param {Object} payload 
+ */
+export const apiActionCreator = (api, types, payload = {}) => {
+    const callApi = {
+        [CALL_API]: {
+            types,
+            ...api
+        }
+    }
+    return {
+        ...payload,
+        ...(api && types && callApi)
+    }
+}
+
+/**
  * callapi 中间件
  */
 export default store => next => action => {
@@ -32,14 +51,12 @@ export default store => next => action => {
         throw new Error('Expected action cache to be boolean.')
     }
 
-
     // 生成最终的Action
     const actionWith = data => {
         const finalAction = {...action, ...data}
         delete finalAction[CALL_API]
         return finalAction
     }
-
     
     // dispatch request action
     const [request, success, failure] = types

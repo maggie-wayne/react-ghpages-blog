@@ -1,5 +1,7 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import { capitalizeFirstLetter } from '../utils'
 
 const Category = ({ category }) => {
     const { name, path } = category
@@ -9,10 +11,14 @@ const Category = ({ category }) => {
                 className="category-name"
                 to={ '/' + path }
             >
-                { name }
+                { capitalizeFirstLetter(name) }
             </Link>
         </li>
     )
+}
+
+Category.propTypes = {
+    category: PropTypes.object.isRequired
 }
 
 export default Category

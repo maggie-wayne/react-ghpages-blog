@@ -1,18 +1,11 @@
-
-
 @fontSize: 16px;
 @lineHeight: 24px;
-@fontWeight: 400;
+@fontWeight: 300;
 
-@fontFamily: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimSun, sans-serif;
-@monospaceFontFamily: "Ubuntu Mono" ,"PT Mono", Consolas, Monaco, Menlo, monospace;
-
-@titleColor: #0d1a26;
-@textColor: #314659;
-@linkColor: #000;
-@bgColor: #fff;
+@textColor: #495057;
+@linkColor: #00f;
+@bgColor: #f6f8fa;
 @metaColor: #888;
-@codeBgColor: #f6f8fa;
 
 @import '~normalize.css';
 @import './githubMarkdown.less';
@@ -24,17 +17,25 @@
 
 /* Global */
 body {
-    width: 50%;
+    color: @textColor;
+
+    width: 40%;
     margin: 1em auto;
     min-width: 700px;
 
-    color: @textColor;
-    background: @bgColor;
-
     font-size: @fontSize;
     font-weight: 400;
-    line-height: @lineHeight;
-    font-family: @fontFamily;
+}
+
+@media (max-width: 700px) {
+    body {
+        width: 100%;
+        min-width: 100%;
+    }
+
+    .posts-content-container, .comments {
+        padding: 0 0.5em;
+    }
 }
 
 .clearfix {
@@ -43,43 +44,34 @@ body {
 
 .a-style {
     color: @linkColor;
-    text-decoration-line: none;
-    font-weight: 500;
-    &:link, &:visited {
-        border-bottom: 1px black dotted;
-    }
-
-    &:hover {
-        border: none;
-    }
-}
-
-h1, h2, h3, h4, h5, h6 {
-    color: @titleColor;
+    font-style: italic;
 }
 
 /* Blog title */
 .blog-title {
-    margin: 0.5em 0;
-    text-align: center;
-    font-size: 2.2em;
-    font-weight: normal;
-
+    text-align: left;
+    font-size: 1em;
     a {
         .a-style;
-        border: none !important;
     }
 }
 
 /* Category list */
 .category-list-container {
+    background-color: @bgColor;
+    padding: 0.4em 0;
+    
     a {
         .a-style;
+        font-weight: 500;
     }
 
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
+    .category-list {
+        float: right;
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
 
     .category-item {
         float: left;
@@ -91,41 +83,45 @@ h1, h2, h3, h4, h5, h6 {
 .posts-list-container {
     a {
         .a-style;
+        letter-spacing: 0.05em;
     }
     .posts-list {
-        margin: 0 0.5em;
-        list-style-type: none;
-        padding: 0px;
+        list-style-type: square;
     }
 
     .posts-item {
-        display: block;
         position: relative;
-        margin: 0.5em 0;
+        margin: 0.8em 0;
     }
 
     .posts-date {
         position: absolute;
+        font-size: 0.6em;
         right: 0px;
+    }
+}
+
+@media (max-width: 700px) {
+    .posts-list-container .posts-date {
+        margin-left: 1em;
+        position: unset;
     }
 }
 
 /* Posts content */
 .posts-content-container {
     .posts-title {
-        color: #000;
         margin: 0.5em 0 1em 0;
-
-        .posts-date {
-            display: block;
-            color: @metaColor;
-            font-size: 0.2em;
-        }
+    }
+    .posts-date {
+        color: @metaColor;
+        margin-left: 1em;
+        font-size: 0.5em;
     }
 }
 
 .footer {
-    margin: auto;
+    margin: 2em 0 0 0;
     font-size: 0.618em;
     text-align: center;
     color: @metaColor;
@@ -134,4 +130,75 @@ h1, h2, h3, h4, h5, h6 {
             color: @metaColor;
         }
     }
+}
+
+/* Comments */
+.comment-list {
+    list-style-type: none;
+    margin: 20px 0;
+    padding: 0;
+
+    .comment-item {
+        position: relative;
+        display: block;
+        margin: 1em 0;
+        padding: 0.5em;
+        box-shadow:  1px 1px 0.5em @metaColor; 
+
+        .comment-user {
+            font-weight: 700;
+        }
+        
+        .comment-user-img {
+            position: absolute;
+            top: 2em;
+            display: none;
+            width: 26px;
+            height: 26px;
+        }
+        .comment-user:hover .comment-user-img {
+            display: block;
+        }
+
+        .comment-meta {
+            color: @metaColor;
+            font-size: 0.5em;
+        }
+
+        .comment-reactions {
+            float: right;
+        }
+
+        .user-tag {
+            font-size: 0.2em;
+        }
+
+        .comment-body {
+            margin: 1em 0 1em 2em;
+        }
+    }
+}
+
+.comment-editor .input {
+    margin: 1em 0;
+    button {
+        margin-top: 1em;
+        float: right;
+    }
+}
+
+.comment-editor textarea {
+    display: block;
+    width: 100%;
+    min-height: 150px;
+    padding: 1em;
+    box-sizing: border-box; 
+    resize: vertical;
+    line-height: @lineHeight;
+    border: none;
+    box-shadow:  1px 1px 0.5em @metaColor; 
+}
+
+.clear-float {
+    clear: both;
 }

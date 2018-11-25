@@ -6,7 +6,7 @@ const FooterBar = () => {
         <div className="footer">
             Copyright © { years } | 
             Powered by
-            &nbsp;&nbsp;
+            &nbsp;
             <a
                 href="https://github.com/zowiegong/react-ghpages-blog"
                 rel="noopener noreferrer"

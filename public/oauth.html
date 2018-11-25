@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Login ...</title>
+</head>
+<body>
+    Waiting ...
+
+    <script>
+        const code = window.location.href.match(/\?code=(.*)/)[1]
+        if (code) {
+            fetch(
+                `https://react-ghpages-blog-oauth.herokuapp.com/authenticate/${code}`
+            ).then(response => {
+                if (response.ok) return response
+                alert('Failed')
+            }).then(response => response.json())
+                .then(result => {
+                    const token = result.token
+                    if (token) {
+                        window.localStorage.setItem('access_token', token)
+                    } else alert('Error')
+                    window.close()
+                })
+        }
+    </script>
+</body>
+</html>

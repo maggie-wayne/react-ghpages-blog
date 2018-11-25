@@ -1,4 +1,4 @@
-import { CALL_API } from '../middleware/api'
+import { apiActionCreator } from '../middleware/api'
 
 /**
  * Actions
@@ -16,16 +16,19 @@ const initalState = {
  * Redecer
  */
 export default (state = initalState, action) => {
-    const { type, response } = action
+    let { type, response } = action
     switch (type) {
         case DIR_FETCH_REQUEST:
             return {
                 ...state,
-                loading: false
+                loading: true
             }
+
         case DIR_FETCH_SUCCESS:
+            response = response.filter(x => x.type === 'dir')
+            response = state.items.concat(response)
             return {
-                items: state.items.concat(response.filter(x => x.type === 'dir')),
+                items: response,
                 loading: false
             }
         default:
@@ -34,26 +37,21 @@ export default (state = initalState, action) => {
 }
 
 /**
- * Action creator
+ * 获取目录
+ * @param {String} path 
  */
-const fetchDir = params => ({
-    [CALL_API]: {
-        types: [DIR_FETCH_REQUEST, DIR_FETCH_SUCCESS, DIR_FETCH_FAILURE],
-        ...params
-    }
-})
-
 export const loadDirOrFileByPath =  (path = '') => (dispatch, getState) => {
-    path = path === '/' ? '' : path
     const { owner, repo } = getState().config
 
-    const params = {
+    const api = {
         url: `/repos/${owner}/${repo}/contents/${path}`,
         method: 'GET',
         cache: true
     }
-
+    const types = [DIR_FETCH_REQUEST, DIR_FETCH_SUCCESS, DIR_FETCH_FAILURE]
+    const payload = { cacheKey: path }
+    
     return dispatch(
-        fetchDir(params)
+        apiActionCreator(api, types, payload)
     )
 }

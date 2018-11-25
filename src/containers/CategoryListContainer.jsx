@@ -10,15 +10,15 @@ class CategoryListContainer extends Component {
     }
 
     render () {
-        const { categoryList, loading } = this.props
+        const { categoryList } = this.props
         const list = (
-            <ul className="category-list-container clearfix">
+            <ul className="category-list clearfix">
                 {
                     categoryList.map(item => <Category category={ item } key={ item.sha }/>)
                 }
             </ul>
         )
-        return loading ? <div>Loading ...</div> : list
+        return <div className="category-list-container clearfix">{ list }</div>
     }
 }
 

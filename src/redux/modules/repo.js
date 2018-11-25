@@ -1,4 +1,4 @@
-import { CALL_API } from '../middleware/api'
+import { apiActionCreator } from '../middleware/api'
 
 /**
  * Actions
@@ -32,24 +32,18 @@ export default (state = initalState, action) => {
 }
 
 /**
- * Action cretor
+ * 获取仓库信息
  */
-const fetchRepo = params => ({
-    [CALL_API]: {
-        types: [REPO_FETCH_REQUEST, REPO_FETCH_SUCCESS, REPO_FETCH_FAILURE],
-        ...params
-    }
-})
-
-export const loadRepo = () => (dispatch, getState) => {
+export const loadRepo = (dispatch, getState) => {
     const { owner, repo } = getState().config
-    const params = {
+    const api = {
         url: `/repos/${owner}/${repo}`,
         method: 'GET',
         cache: false
     }
+    const types = [REPO_FETCH_REQUEST, REPO_FETCH_SUCCESS, REPO_FETCH_FAILURE]
 
     return dispatch(
-        fetchRepo(params)
+        apiActionCreator(api, types)
     )
 }

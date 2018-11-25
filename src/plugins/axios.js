@@ -9,32 +9,49 @@ const instance = axios.create({
     timeout: conf.requestTimeOut
 })
 
+instance.interceptors.request.use(options => {
+    const accessToken = window.localStorage.getItem('access_token')
+    if (accessToken) {
+        options.headers['Authorization'] = ' token ' + accessToken
+    }
+    return options
+})
+
 instance.interceptors.response.use(response => response.data)
 
 export let queue = []
+
+/**
+ * 从请求队列中删除url
+ * @param {string} url 
+ */
 const deleteUrlFromQueue = url => queue.splice(queue.indexOf(url), 1)
 
-export default async callApi => {
-    const url = callApi.url
+/**
+ * 生成缓存 key
+ * @param {string} url 
+ * @param {any} params 
+ */
+const makeCacheKey = (url, params) => url += params ? hashCode(JSON.stringify(params)) : ''
+
+export default async config => {
+    let response = null
+    let { params, option, cache, url } = config
+    const method = config.method.toLocaleLowerCase()
+    const cacheKey = makeCacheKey(url, params)
+
+    params = method === 'get' ? option : params
 
     // 过滤重复请求
-    if (queue.indexOf(url) !== -1) {
+    if (queue.indexOf(cacheKey) !== -1) {
         return Promise.reject({
             message: 'Do not repeat requests.'
         })
     }
-    queue.push(url)
-
-    const { params, option, cache } = callApi
-    const method = callApi.method.toLocaleLowerCase()
-    let response = null
+    queue.push(cacheKey)
 
     // 是否缓存
     if (cache) {
-        // 生成缓存的Key值
-        let cacheKey = url
-        params && (cacheKey += hashCode(JSON.stringify(params)))
-
         // 检查缓存
         const hasCache = await localforage.has(cacheKey)
         response = hasCache 
@@ -46,7 +63,7 @@ export default async callApi => {
         response = await instance[method](url, params, option)
     }
 
-    deleteUrlFromQueue(url)
+    deleteUrlFromQueue(cacheKey)
     const camelizedJson = camelizeKeys(response)
     return camelizedJson
 }

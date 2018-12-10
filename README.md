@@ -1,6 +1,6 @@
 # react-ghpages-blog
 
-[![Build Status](https://travis-ci.org/zowiegong/react-ghpages-blog.svg?branch=dev)](https://travis-ci.org/zowiegong/react-ghpages-blog)
+[![Build Status](https://travis-ci.org/zowiegong/react-ghpages-blog.svg?branch=master)](https://travis-ci.org/zowiegong/react-ghpages-blog)
 
 灵感来源于 [vue-ghpages-blog](https://github.com/viko16/vue-ghpages-blog)
 

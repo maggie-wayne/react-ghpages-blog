@@ -1,6 +1,6 @@
 {
     "name": "react-ghpages-blog",
-    "version": "0.0.1",
+    "version": "1.0.1",
     "private": false,
     "dependencies": {
         "autoprefixer": "7.1.6",
